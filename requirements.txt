@@ -1,2 +1,5 @@
 PyYAML>=6.0.2
 google-genai>=1.0
+chatterbox-tts
+sounddevice>=0.5
+mcp[cli]>=1.0.0

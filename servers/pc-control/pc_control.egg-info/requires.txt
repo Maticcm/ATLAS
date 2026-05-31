@@ -1,0 +1,6 @@
+mcp[cli]>=1.0.0
+psutil
+pyautogui
+pywin32
+Pillow
+pydantic

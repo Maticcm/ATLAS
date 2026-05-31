@@ -1,0 +1,17 @@
+[project]
+name = "pc-control"
+version = "0.1.0"
+description = "PC Control MCP server for ATLAS"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp[cli]>=1.0.0",
+    "psutil",
+    "pyautogui",
+    "pywin32",
+    "Pillow",
+    "pydantic"
+]
+
+[project.scripts]
+pc-control = "pc_control.__main__:main"

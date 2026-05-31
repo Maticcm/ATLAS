@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: pc-control
+Version: 0.1.0
+Summary: PC Control MCP server for ATLAS
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: mcp[cli]>=1.0.0
+Requires-Dist: psutil
+Requires-Dist: pyautogui
+Requires-Dist: pywin32
+Requires-Dist: Pillow
+Requires-Dist: pydantic
+
+# PC Control MCP Server
+A local Windows PC control server built on the Model Context Protocol.
