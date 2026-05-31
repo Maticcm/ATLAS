@@ -3,11 +3,15 @@
 from __future__ import annotations
 
 import sys
+from pathlib import Path
 
+from atlas.brain.llm import Brain
 from atlas.config.settings import Settings
 from atlas.core.event_loop import EventLoop
 from atlas.core.events import WakeEvent
 from atlas.core.logger import create_logger
+
+_SYSTEM_PROMPT_PATH = Path(__file__).resolve().parent.parent / "brain" / "system_prompt.txt"
 
 
 class Application:
@@ -23,6 +27,8 @@ class Application:
             name=settings.app_name,
             level=settings.log_level,
         )
+        system_prompt = _SYSTEM_PROMPT_PATH.read_text(encoding="utf-8")
+        self._brain = Brain(system_prompt=system_prompt)
 
     def run(self) -> None:
         """Start ATLAS, listen for events, and handle them."""
@@ -59,3 +65,29 @@ class Application:
     def _on_wake(self, event: WakeEvent) -> None:
         self._logger.debug("Wake event at %s", event.timestamp)
         print("\nATLAS ONLINE\n")
+        self._conversation_loop()
+
+    def _conversation_loop(self) -> None:
+        """Inner REPL — send messages to Brain until the user types 'exit'."""
+        while True:
+            try:
+                message = input("You: ").strip()
+            except (EOFError, KeyboardInterrupt):
+                print()
+                return
+
+            if not message:
+                continue
+
+            if message.lower() == "exit":
+                print()
+                return
+
+            try:
+                reply = self._brain.chat(message)
+            except Exception as exc:
+                self._logger.error("Brain error: %s", exc)
+                print(f"ATLAS: I encountered an error, sir.")
+                continue
+
+            print(f"ATLAS: {reply}\n")
