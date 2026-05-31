@@ -1,0 +1,4 @@
+app_name: ATLAS
+version: 0.1.0
+debug: false
+log_level: INFO
